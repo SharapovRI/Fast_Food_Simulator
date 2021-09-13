@@ -39,7 +39,7 @@ namespace Fast_Food_Simulator
                         CallOut(currentOrder);
                     }
                 }
-            }, TaskCreationOptions.AttachedToParent);
+            });
         }
 
         public static void AddNewCustomerToQueue(Customer customer)
@@ -54,8 +54,6 @@ namespace Fast_Food_Simulator
 
         public static void CallOut(Task<int> order)
         {
-            var a = customerOrder.Peek().numberOfTicket;
-            var b = order.Result;
             if (customerOrder.Peek().numberOfTicket == order.Result)
             {
                 customerOrder.Dequeue();

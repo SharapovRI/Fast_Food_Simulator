@@ -28,7 +28,7 @@ namespace Fast_Food_Simulator
                         AddNewCustomer();
                     }
                 
-            }, token);
+            });
 
             Task.Factory.StartNew(() =>
             {
@@ -38,7 +38,7 @@ namespace Fast_Food_Simulator
                         Window.Dispatcher.Invoke(() => Window.queueCustomersCount.Content = customerOrder.Count);
                     }
                 
-            }, token);
+            });
 
             Task.Run(() =>
             {
@@ -52,7 +52,7 @@ namespace Fast_Food_Simulator
                         }
                     }
                 
-            }, token);
+            });
         }
 
         static void AddNewCustomer()
