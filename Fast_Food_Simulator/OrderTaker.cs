@@ -21,43 +21,37 @@ namespace Fast_Food_Simulator
             customerOrder = new Queue<Customer>();
             Task.Factory.StartNew(() =>
             {
-                
-                    while (!token.IsCancellationRequested)
-                    {
-                        Thread.Sleep(customerInterval);
-                        AddNewCustomer();
-                    }
-                
+                while (!token.IsCancellationRequested)
+                {
+                    Thread.Sleep(customerInterval);
+                    AddNewCustomer();
+                }
             });
 
             Task.Factory.StartNew(() =>
             {
-                
-                    while (!token.IsCancellationRequested)
-                    {
-                        Window.Dispatcher.Invoke(() => Window.queueCustomersCount.Content = customerOrder.Count);
-                    }
-                
+                while (!token.IsCancellationRequested)
+                {
+                    Window.Dispatcher.Invoke(() => Window.queueCustomersCount.Content = customerOrder.Count);
+                }
             });
 
             Task.Run(() =>
             {
-                
-                    while (!token.IsCancellationRequested)
+                while (!token.IsCancellationRequested)
+                {
+                    if (customerOrder.Count > 0)
                     {
-                        if (customerOrder.Count > 0)
-                        {
-                            Task ticketCreating = Task.Factory.StartNew(() => CreateTicket(), TaskCreationOptions.AttachedToParent);
-                            ticketCreating.Wait();
-                        }
+                        Task ticketCreating = Task.Factory.StartNew(() => CreateTicket(), TaskCreationOptions.AttachedToParent);
+                        ticketCreating.Wait();
                     }
-                
+                }
             });
         }
 
         static void AddNewCustomer()
         {
-            Customer customer = new Customer(customerOrder);
+            Customer customer = new Customer();
             customerOrder.Enqueue(customer);
         }
 
@@ -68,9 +62,11 @@ namespace Fast_Food_Simulator
                 Customer customer = customerOrder.Dequeue();
                 int TicketNum = ++NumberOfTicket;
                 Window.Dispatcher.Invoke(() => Window.currentlyTakenTicket.Content = TicketNum);
-                Thread.Sleep(6000);
+
+                Thread.Sleep(6000); //<-------------------------------Time order
 
                 customer.numberOfTicket = TicketNum;
+                customer.GoingToServingLine();
 
                 Task<int> ticket = new Task<int>(() =>
                 {

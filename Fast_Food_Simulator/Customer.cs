@@ -11,13 +11,8 @@ namespace Fast_Food_Simulator
         public int numberOfTicket;
         public bool IsTicketCreated = false;
 
-        public Customer(Queue<Customer> queue)
+        public Customer()
         {
-            Task.Factory.StartNew(() =>
-            {
-                while (!IsTicketCreated) ;
-                GoingToServingLine();
-            }, TaskCreationOptions.AttachedToParent);
         }
 
         public void GoingToServingLine()

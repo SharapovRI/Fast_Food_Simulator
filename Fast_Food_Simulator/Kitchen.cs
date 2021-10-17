@@ -21,7 +21,7 @@ namespace Fast_Food_Simulator
             queueOfTickets = new Queue<Task<int>>();
 
             
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 while (!token.IsCancellationRequested)
                 {
@@ -33,7 +33,7 @@ namespace Fast_Food_Simulator
                 }
             });
 
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 while (!token.IsCancellationRequested)
                 {
